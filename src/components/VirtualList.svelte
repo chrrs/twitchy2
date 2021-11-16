@@ -1,11 +1,20 @@
 <!-- Largely based on https://github.com/sveltejs/svelte-virtual-list -->
 <script lang="ts">
-    import { onMount, tick } from 'svelte';
+    import { createEventDispatcher, onMount, tick } from 'svelte';
+
+    const dispatch = createEventDispatcher<{
+        scroll: {
+            clientHeight: number;
+            scrollHeight: number;
+            scrollTop: number;
+        };
+    }>();
 
     type T = $$Generic;
     export let items: Array<T>;
     export let height = '100%';
     export let itemHeight = undefined;
+    export let scrollToBottom = false;
 
     export let start = 0;
     export let end = 0;
@@ -41,13 +50,14 @@
         viewportHeight: number,
         itemHeight?: number
     ): Promise<void> {
-        const isStartOverflow = items.length < start;
+        let scrollTop = viewport.scrollTop;
 
-        if (isStartOverflow) {
+        if (scrollToBottom && averageHeight) {
+            scrollTop += (items.length - end) * (itemHeight || averageHeight);
+        } else if (items.length < start) {
+            // FIXME: Do this more elegantly
             await scrollToIndex(items.length - 1);
         }
-
-        const { scrollTop } = viewport;
 
         await tick();
 
@@ -76,6 +86,16 @@
 
         bottom = remaining * averageHeight;
         heightMap.length = items.length;
+
+        if (viewport.scrollTop != scrollTop) {
+            if (scrollToBottom) {
+                viewport.scrollTo({
+                    top: viewport.scrollHeight - viewport.clientHeight,
+                });
+            } else {
+                viewport.scrollTo({ top: scrollTop });
+            }
+        }
     }
 
     async function handleScroll() {
@@ -119,6 +139,12 @@
         while (i < items.length) {
             heightMap[i++] = averageHeight;
         }
+
+        dispatch('scroll', {
+            clientHeight: viewport.clientHeight,
+            scrollHeight: viewport.scrollHeight,
+            scrollTop: viewport.scrollTop,
+        });
     }
 
     $: if (mounted) {
