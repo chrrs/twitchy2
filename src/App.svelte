@@ -1,8 +1,8 @@
 <script lang="ts">
-    import VirtualList from '@sveltejs/svelte-virtual-list';
+    import VirtualList from './components/VirtualList.svelte';
     import { ChatClient } from '@twurple/chat';
 
-    let scrollToIndex: (index: number, cfg?: ScrollToOptions) => void;
+    let scrollToIndex: (index: number, cfg?: ScrollToOptions) => Promise<void>;
     let messages = [];
 
     (async () => {
@@ -11,7 +11,7 @@
 
         client.onMessage(async (_channel, user, message) => {
             messages = [...messages, { user, message }];
-            scrollToIndex(messages.length - 1, { behavior: 'auto' });
+            scrollToIndex(messages.length - 1);
             console.log(user, message);
         });
     })();

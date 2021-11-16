@@ -8,7 +8,6 @@
         "dev": "vite"
     },
     "devDependencies": {
-        "@sveltejs/svelte-virtual-list": "gitbreaker222/svelte-virtual-list##43_scroll-position",
         "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
         "@tsconfig/svelte": "^2.0.1",
         "eslint": "^8.2.0",

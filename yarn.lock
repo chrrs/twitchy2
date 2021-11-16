@@ -209,10 +209,6 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@sveltejs/svelte-virtual-list@gitbreaker222/svelte-virtual-list##43_scroll-position":
-  version "3.0.1"
-  resolved "https://codeload.github.com/gitbreaker222/svelte-virtual-list/tar.gz/b834e770d6b96062484b37416d1c2d4c5dcf59d3"
-
 "@sveltejs/vite-plugin-svelte@^1.0.0-next.30":
   version "1.0.0-next.30"
   resolved "https://registry.yarnpkg.com/@sveltejs/vite-plugin-svelte/-/vite-plugin-svelte-1.0.0-next.30.tgz#a6cd181bb406d590c1fa8d480c55950d567689f9"
