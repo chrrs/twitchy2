@@ -49,6 +49,7 @@
                         class="inline-block h-6 object-contain align-top"
                         src={part.url}
                         alt={part.name}
+                        use:tooltip={{ content: part.name }}
                     />
                 {/if}
             {/each}
