@@ -25,6 +25,8 @@
     },
     "dependencies": {
         "@twurple/auth": "^5.0.9",
-        "@twurple/chat": "^5.0.9"
+        "@twurple/chat": "^5.0.9",
+        "sveltejs-tippy": "^3.0.0",
+        "tippy.js": "^6.3.7"
     }
 }
