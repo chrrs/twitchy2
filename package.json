@@ -1,0 +1,25 @@
+{
+    "name": "twitchy",
+    "version": "2.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+        "@tsconfig/svelte": "^2.0.1",
+        "eslint": "^8.2.0",
+        "eslint-plugin-import": "^2.25.3",
+        "eslint-plugin-svelte3": "^3.2.1",
+        "prettier": "^2.4.1",
+        "prettier-eslint": "^13.0.0",
+        "prettier-plugin-svelte": "^2.5.0",
+        "svelte": "^3.44.1",
+        "svelte-preprocess": "^4.9.8",
+        "typescript": "^4.4.4",
+        "vite": "^2.6.14",
+        "vite-plugin-windicss": "^1.5.1",
+        "windicss": "^3.2.1"
+    }
+}
