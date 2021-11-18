@@ -50,7 +50,9 @@
             <span>
                 {#each item.author.badges as badge}
                     <img
-                        class="inline-block h-5 not-last:mr-1 object-contain align-text-bottom"
+                        class:bg-red-500={!badge.url}
+                        class:text-transparent={!badge.url}
+                        class="inline-block w-5 h-5 not-last:mr-1 object-contain align-text-bottom"
                         src={badge.url}
                         alt={badge.name}
                         use:tooltip={{

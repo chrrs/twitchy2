@@ -1,6 +1,6 @@
 export interface BadgeDetails {
     name: string;
-    url: string;
+    url?: string;
 }
 
 export interface BadgeProvider {

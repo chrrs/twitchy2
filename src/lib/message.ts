@@ -55,23 +55,31 @@ export function parseMessage(
     const badges: Array<BadgeDetails> = [];
 
     for (const badge of msg.userInfo.badges.entries()) {
+        let details: BadgeDetails;
         for (const provider of badgeProviders) {
-            let details = provider.get(badge[0], badge[1]);
+            details = provider.get(badge[0], badge[1]);
             if (details) {
-                if (badge[0] === 'subscriber') {
-                    const months = msg.userInfo.badgeInfo.get('subscriber');
-                    details = {
-                        ...details,
-                        name: `${details.name} (${months} month${
-                            months === '1' ? '' : 's'
-                        })`,
-                    };
-                }
-
-                badges.push(details);
                 break;
             }
         }
+
+        if (!details) {
+            details = {
+                name: `${badge[0]}/${badge[1]} (missing badge)`,
+            };
+        }
+
+        if (badge[0] === 'subscriber') {
+            const months = msg.userInfo.badgeInfo.get('subscriber');
+            details = {
+                ...details,
+                name: `${details.name} (${months} month${
+                    months === '1' ? '' : 's'
+                })`,
+            };
+        }
+
+        badges.push(details);
     }
 
     const parts = [];
