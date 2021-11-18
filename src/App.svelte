@@ -16,7 +16,7 @@
     (async () => {
         const channel = 'lilypichu';
         const recent: { messages: Array<string> } = await fetch(
-            `https://recent-messages.robotty.de/api/v2/recent-messages/${channel}?limit=20`
+            `https://recent-messages.robotty.de/api/v2/recent-messages/${channel}?limit=100`
         ).then((res) => res.json());
 
         messages = recent.messages
@@ -30,6 +30,9 @@
                 ),
                 old: true,
             }));
+
+        // FIXME: Kinda dirty hack, but it works for now.
+        setTimeout(() => scrollToIndex(messages.length - 1), 0);
 
         const client = new ChatClient({ channels: [channel] });
         await client.connect();
