@@ -46,7 +46,7 @@
                     {part.text}
                 {:else if part.type === 'emote'}
                     <img
-                        class="inline-block h-8 object-contain align-bottom"
+                        class="inline-block h-6 object-contain align-bottom"
                         src={part.url}
                         alt={part.name}
                         use:tooltip={{ content: part.name }}
