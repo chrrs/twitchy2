@@ -87,14 +87,12 @@
         bottom = remaining * averageHeight;
         heightMap.length = items.length;
 
-        if (viewport.scrollTop != scrollTop) {
-            if (scrollToBottom) {
-                viewport.scrollTo({
-                    top: viewport.scrollHeight - viewport.clientHeight,
-                });
-            } else {
-                viewport.scrollTo({ top: scrollTop });
-            }
+        if (scrollToBottom) {
+            viewport.scrollTo({
+                top: viewport.scrollHeight - viewport.clientHeight,
+            });
+        } else if (viewport.scrollTop != scrollTop) {
+            viewport.scrollTo({ top: scrollTop });
         }
     }
 
