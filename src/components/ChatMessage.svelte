@@ -5,7 +5,7 @@
     export let message: Message;
 </script>
 
-<p class="min-h-6 mb-1">
+<p class="min-h-6 mb-1" class:old={message.old}>
     <span>
         {#each message.author.badges as badge}
             <img
@@ -42,3 +42,9 @@
         {/if}
     {/each}
 </p>
+
+<style>
+    .old {
+        @apply filter grayscale opacity-50;
+    }
+</style>

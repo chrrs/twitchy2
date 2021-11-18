@@ -16,6 +16,7 @@ export type MessagePart = MessageEmotePart | MessageTextPart;
 export interface Message {
     author: Author;
     message: Array<MessagePart>;
+    old?: boolean;
 }
 
 export interface Author {

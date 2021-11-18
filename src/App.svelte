@@ -1,11 +1,12 @@
 <script lang="ts">
     import VirtualList from './components/VirtualList.svelte';
     import ChatMessage from './components/ChatMessage.svelte';
-    import { ChatClient } from '@twurple/chat';
+    import { ChatClient, parseTwitchMessage } from '@twurple/chat';
     import { Message, parseMessage } from './lib/message';
     import { globalBadgeProvider } from './lib/badge';
     import { bttvGlobalEmoteProvider } from './lib/bttv';
     import { ffzGlobalEmoteProvider } from './lib/ffz';
+    import type { TwitchPrivateMessage } from '@twurple/chat/lib/commands/TwitchPrivateMessage';
 
     let scrollToIndex: (index: number, cfg?: ScrollToOptions) => Promise<void>;
     let messages: Array<Message> = [];
@@ -13,7 +14,24 @@
     let pauseAutoScroll = false;
 
     (async () => {
-        const client = new ChatClient({ channels: ['auronplay'] });
+        const channel = 'lilypichu';
+        const recent: { messages: Array<string> } = await fetch(
+            `https://recent-messages.robotty.de/api/v2/recent-messages/${channel}?limit=20`
+        ).then((res) => res.json());
+
+        messages = recent.messages
+            .map((message) => parseTwitchMessage(message))
+            .filter((msg) => msg.command === 'PRIVMSG')
+            .map((msg) => ({
+                ...parseMessage(
+                    msg as TwitchPrivateMessage,
+                    [globalBadgeProvider],
+                    [bttvGlobalEmoteProvider, ffzGlobalEmoteProvider]
+                ),
+                old: true,
+            }));
+
+        const client = new ChatClient({ channels: [channel] });
         await client.connect();
 
         client.onMessage(async (_channel, _user, _message, msg) => {
