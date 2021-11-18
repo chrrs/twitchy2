@@ -3,7 +3,7 @@
     import { ChatClient } from '@twurple/chat';
     import { Message, parseMessage } from './lib/message';
     import tooltip from './lib/tooltip';
-    import { globalProvider } from './lib/badge';
+    import { globalBadgeProvider } from './lib/badge';
 
     let scrollToIndex: (index: number, cfg?: ScrollToOptions) => Promise<void>;
     let messages: Array<Message> = [];
@@ -15,7 +15,7 @@
         await client.connect();
 
         client.onMessage(async (_channel, _user, _message, msg) => {
-            messages = [...messages, parseMessage(msg, [globalProvider])];
+            messages = [...messages, parseMessage(msg, [globalBadgeProvider])];
         });
     })();
 

@@ -4,7 +4,7 @@ export interface BadgeDetails {
 }
 
 export interface BadgeProvider {
-    get(name: string, detail: string): BadgeDetails | null;
+    get(name: string, detail: string): BadgeDetails | undefined;
 }
 
 class GlobalBadgeProvider implements BadgeProvider {
@@ -33,4 +33,4 @@ class GlobalBadgeProvider implements BadgeProvider {
     }
 }
 
-export const globalProvider = new GlobalBadgeProvider();
+export const globalBadgeProvider = new GlobalBadgeProvider();
