@@ -3,6 +3,7 @@
     import { ChatClient } from '@twurple/chat';
     import { Message, parseMessage } from './lib/message';
     import tooltip from './lib/tooltip';
+    import { globalProvider } from './lib/badge';
 
     let scrollToIndex: (index: number, cfg?: ScrollToOptions) => Promise<void>;
     let messages: Array<Message> = [];
@@ -14,8 +15,7 @@
         await client.connect();
 
         client.onMessage(async (_channel, _user, _message, msg) => {
-            messages = [...messages, parseMessage(msg)];
-            messages.length = Math.min(1000, messages.length);
+            messages = [...messages, parseMessage(msg, [globalProvider])];
         });
     })();
 
@@ -38,6 +38,20 @@
         let:item
     >
         <p class="min-h-6 mb-1">
+            <span>
+                {#each item.author.badges as badge}
+                    <img
+                        class="inline-block h-5 not-last:mr-1 object-contain align-text-bottom"
+                        src={badge.url}
+                        alt={badge.name}
+                        use:tooltip={{
+                            // FIXME: Potential XSS
+                            content: `<b>${badge.name}</b>`,
+                            allowHTML: true,
+                        }}
+                    />
+                {/each}
+            </span>
             <b class="font-semibold" style={`color: ${item.author.color}`}>
                 {item.author.name}:
             </b>

@@ -1,4 +1,5 @@
 import type { TwitchPrivateMessage } from '@twurple/chat/lib/commands/TwitchPrivateMessage';
+import type { BadgeDetails, BadgeProvider } from './badge';
 
 export interface MessageEmotePart {
     type: 'emote';
@@ -22,6 +23,7 @@ export interface Message {
 export interface Author {
     name: string;
     color: string;
+    badges: Array<BadgeDetails>;
 }
 
 export function getAuthorColor(name: string) {
@@ -47,11 +49,27 @@ export function getAuthorColor(name: string) {
     return colors[n % colors.length];
 }
 
-export function parseMessage(msg: TwitchPrivateMessage): Message {
+export function parseMessage(
+    msg: TwitchPrivateMessage,
+    badgeProviders: Array<BadgeProvider>
+): Message {
+    const badges: Array<BadgeDetails> = [];
+
+    for (const badge of msg.userInfo.badges.entries()) {
+        for (const provider of badgeProviders) {
+            const details = provider.get(badge[0], badge[1]);
+            if (details) {
+                badges.push(details);
+                break;
+            }
+        }
+    }
+
     return {
         author: {
             name: msg.userInfo.displayName,
             color: msg.userInfo.color || getAuthorColor(msg.userInfo.userName),
+            badges,
         },
         message: msg.parseEmotes().map((part) => {
             switch (part.type) {
