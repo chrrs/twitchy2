@@ -1,11 +1,9 @@
 import type { TwitchPrivateMessage } from '@twurple/chat/lib/commands/TwitchPrivateMessage';
 import type { BadgeDetails, BadgeProvider } from './badge';
+import type { EmoteDetails, EmoteProvider } from './emote';
 
-export interface MessageEmotePart {
+export interface MessageEmotePart extends EmoteDetails {
     type: 'emote';
-    name: string;
-    description: string;
-    url: string;
 }
 
 export interface MessageTextPart {
@@ -51,7 +49,8 @@ export function getAuthorColor(name: string) {
 
 export function parseMessage(
     msg: TwitchPrivateMessage,
-    badgeProviders: Array<BadgeProvider>
+    badgeProviders: Array<BadgeProvider>,
+    emoteProviders: Array<EmoteProvider>
 ): Message {
     const badges: Array<BadgeDetails> = [];
 
@@ -65,32 +64,76 @@ export function parseMessage(
         }
     }
 
+    const parts = [];
+
+    for (const part of msg.parseEmotes()) {
+        switch (part.type) {
+            case 'emote':
+                parts.push({
+                    type: 'emote',
+                    name: part.name,
+                    description: 'Twitch Emote',
+                    url: `https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/light/3.0`,
+                });
+
+                break;
+            case 'text':
+                let text = '';
+                let words = part.text.split(' ');
+
+                for (const word of words) {
+                    let emote: EmoteDetails | undefined;
+                    for (const provider of emoteProviders) {
+                        const details = provider.get(word);
+                        if (details) {
+                            emote = details;
+                            break;
+                        }
+                    }
+
+                    if (emote) {
+                        if (text.length !== 0) {
+                            parts.push({
+                                type: 'text',
+                                text,
+                            });
+                        }
+
+                        text = ' ';
+
+                        parts.push({
+                            type: 'emote',
+                            ...emote,
+                        });
+                    } else {
+                        text += word + ' ';
+                    }
+                }
+
+                if (text.length !== 0 && text !== ' ') {
+                    parts.push({
+                        type: 'text',
+                        text,
+                    });
+                }
+
+                break;
+            case 'cheer':
+                parts.push({
+                    type: 'text',
+                    text: part.name,
+                });
+
+                break;
+        }
+    }
+
     return {
         author: {
             name: msg.userInfo.displayName,
             color: msg.userInfo.color || getAuthorColor(msg.userInfo.userName),
             badges,
         },
-        message: msg.parseEmotes().map((part) => {
-            switch (part.type) {
-                case 'emote':
-                    return {
-                        type: 'emote',
-                        name: part.name,
-                        description: 'Twitch Emote',
-                        url: `https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/light/3.0`,
-                    };
-                case 'text':
-                    return {
-                        type: 'text',
-                        text: part.text,
-                    };
-                case 'cheer':
-                    return {
-                        type: 'text',
-                        text: part.name,
-                    };
-            }
-        }),
+        message: parts,
     };
 }

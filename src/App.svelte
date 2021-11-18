@@ -4,6 +4,8 @@
     import { Message, parseMessage } from './lib/message';
     import tooltip from './lib/tooltip';
     import { globalBadgeProvider } from './lib/badge';
+    import { bttvGlobalEmoteProvider } from './lib/bttv';
+    import { ffzGlobalEmoteProvider } from './lib/ffz';
 
     let scrollToIndex: (index: number, cfg?: ScrollToOptions) => Promise<void>;
     let messages: Array<Message> = [];
@@ -15,7 +17,14 @@
         await client.connect();
 
         client.onMessage(async (_channel, _user, _message, msg) => {
-            messages = [...messages, parseMessage(msg, [globalBadgeProvider])];
+            messages = [
+                ...messages,
+                parseMessage(
+                    msg,
+                    [globalBadgeProvider],
+                    [bttvGlobalEmoteProvider, ffzGlobalEmoteProvider]
+                ),
+            ];
         });
     })();
 
