@@ -56,8 +56,18 @@ export function parseMessage(
 
     for (const badge of msg.userInfo.badges.entries()) {
         for (const provider of badgeProviders) {
-            const details = provider.get(badge[0], badge[1]);
+            let details = provider.get(badge[0], badge[1]);
             if (details) {
+                if (badge[0] === 'subscriber') {
+                    const months = msg.userInfo.badgeInfo.get('subscriber');
+                    details = {
+                        ...details,
+                        name: `${details.name} (${months} month${
+                            months === '1' ? '' : 's'
+                        })`,
+                    };
+                }
+
                 badges.push(details);
                 break;
             }
