@@ -49,7 +49,11 @@
                         class="inline-block h-6 object-contain align-bottom"
                         src={part.url}
                         alt={part.name}
-                        use:tooltip={{ content: part.name }}
+                        use:tooltip={{
+                            // FIXME: Potential XSS
+                            content: `<b>${part.name}</b><br/>${part.description}`,
+                            allowHTML: true,
+                        }}
                     />
                 {/if}
             {/each}

@@ -3,6 +3,7 @@ import type { TwitchPrivateMessage } from '@twurple/chat/lib/commands/TwitchPriv
 export interface MessageEmotePart {
     type: 'emote';
     name: string;
+    description: string;
     url: string;
 }
 
@@ -58,6 +59,7 @@ export function parseMessage(msg: TwitchPrivateMessage): Message {
                     return {
                         type: 'emote',
                         name: part.name,
+                        description: 'Twitch Emote',
                         url: `https://static-cdn.jtvnw.net/emoticons/v2/${part.id}/default/light/3.0`,
                     };
                 case 'text':
