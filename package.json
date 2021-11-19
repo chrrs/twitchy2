@@ -5,10 +5,13 @@
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "dev": "vite"
+        "dev": "vite",
+        "build": "vite build",
+        "tauri": "tauri"
     },
     "devDependencies": {
         "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+        "@tauri-apps/cli": "^1.0.0-beta.10",
         "@tsconfig/svelte": "^2.0.1",
         "eslint": "^8.2.0",
         "eslint-plugin-import": "^2.25.3",
