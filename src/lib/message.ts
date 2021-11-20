@@ -94,9 +94,9 @@ export function parseMessage(
 				});
 
 				break;
-			case 'text':
+			case 'text': {
 				let text = '';
-				let words = part.text.split(' ');
+				const words = part.text.split(' ');
 
 				for (const word of words) {
 					let emote: EmoteDetails | undefined;
@@ -135,6 +135,7 @@ export function parseMessage(
 				}
 
 				break;
+			}
 			case 'cheer':
 				parts.push({
 					type: 'text',
