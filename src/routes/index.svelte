@@ -1,10 +1,12 @@
 <script lang="ts">
-	async function login() {
-		const { WebviewWindow } = await import('@tauri-apps/api/window');
+	import { login } from '$lib/login';
 
-		new WebviewWindow('login', {
-			url: '/twitch.html',
-		});
+	async function tryLogin() {
+		try {
+			alert(JSON.stringify(await login()));
+		} catch (e) {
+			alert(e);
+		}
 	}
 </script>
 
@@ -12,7 +14,7 @@
 	<span>
 		Click <a
 			class="text-blue-500 border-b-4 border-blue-500 hover:(text-blue-600 border-blue-600)"
-			on:click={login}
+			on:click={tryLogin}
 			href="javascript:void(0)">here</a
 		> to go to chat
 	</span>

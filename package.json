@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "@tauri-apps/api": "^1.0.0-beta.8",
+        "@twurple/api": "^5.0.9",
         "@twurple/auth": "^5.0.9",
         "@twurple/chat": "^5.0.9",
         "sveltejs-tippy": "^3.0.0",

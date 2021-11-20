@@ -274,6 +274,19 @@
     "@types/node-fetch" "^2.5.7"
     tslib "^2.0.3"
 
+"@twurple/api@^5.0.9":
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/@twurple/api/-/api-5.0.9.tgz#b5d58393dc1431e37449666a50bce672e29d1b81"
+  integrity sha512-LO53jrfrtF1jkss78CC4W+uZ7Q+wQ96hkYjiQ37084c46foHgvwGJwOyfqSgOeSNsAvV603cQbjDJ043pdVu1w==
+  dependencies:
+    "@d-fischer/cache-decorators" "^3.0.0"
+    "@d-fischer/logger" "^4.0.0"
+    "@d-fischer/rate-limiter" "^0.4.4"
+    "@d-fischer/shared-utils" "^3.2.0"
+    "@twurple/api-call" "^5.0.9"
+    "@twurple/common" "^5.0.9"
+    tslib "^2.0.3"
+
 "@twurple/auth@^5.0.9":
   version "5.0.9"
   resolved "https://registry.yarnpkg.com/@twurple/auth/-/auth-5.0.9.tgz#23fe566f78c90d1cb80dea52356c6b92782f01b8"
