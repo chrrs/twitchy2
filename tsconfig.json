@@ -1,16 +1,30 @@
 {
-    "extends": "@tsconfig/svelte/tsconfig.json",
     "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
-        "moduleResolution": "Node",
-        "useDefineForClassFields": true,
+        "moduleResolution": "node",
+        "module": "es2020",
+        "lib": [
+            "es2020",
+            "DOM"
+        ],
+        "target": "es2020",
+        "importsNotUsedAsValues": "error",
+        "isolatedModules": true,
+        "resolveJsonModule": true,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
         "baseUrl": ".",
+        "allowJs": true,
         "checkJs": true,
-        "types": [
-            "node",
-            "svelte"
-        ]
+        "paths": {
+            "$lib/*": [
+                "src/lib/*"
+            ],
+            "$components/*": [
+                "src/components/*"
+            ]
+        }
     },
     "include": [
         "src/**/*.d.ts",
