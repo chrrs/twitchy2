@@ -43,3 +43,24 @@ jobs:
                   eslint_args: '--ignore-path .gitignore'
                   prettier: true
                   prettier_args: '--ignore-path .gitignore --plugin-search-dir=.'
+
+    cargo:
+        name: Lint Rust
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Install Rust toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  components: clippy
+                  override: true
+
+            - name: Run Cargo clippy
+              uses: actions-rs/clippy-check@v1
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  args: --release --manifest-path src-tauri/Cargo.toml
