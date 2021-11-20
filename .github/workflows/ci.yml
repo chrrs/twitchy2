@@ -55,7 +55,7 @@ jobs:
             - name: Install webkit2gtk
               run: |
                   sudo apt update
-                  sudo apt install -y libwebkit2gtk-4.0-37
+                  sudo apt install -y libgtk-4-dev libwebkit2gtk-4.0-dev
 
             - name: Install toolchain
               uses: actions-rs/toolchain@v1
