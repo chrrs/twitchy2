@@ -8,6 +8,7 @@ export interface TwitchLogin {
 	accessToken: string;
 	name: string;
 	id: string;
+	expiry: Date;
 }
 
 export function login(): Promise<TwitchLogin> {
@@ -35,11 +36,17 @@ export function login(): Promise<TwitchLogin> {
 				try {
 					const tokenInfo = await client.getTokenInfo();
 
+					// Subtract 5 days from expiry date to (hopefully) prevent
+					// access tokens expiring while using the application.
+					const expiry = tokenInfo.expiryDate;
+					expiry.setDate(expiry.getDate() - 5);
+
 					resolve({
 						clientId: CLIENT_ID,
 						accessToken,
 						name: tokenInfo.userName,
 						id: tokenInfo.userId,
+						expiry,
 					});
 				} catch (e) {
 					reject(e);
