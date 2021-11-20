@@ -43,3 +43,29 @@ jobs:
                   eslint_args: '--ignore-path .gitignore'
                   prettier: true
                   prettier_args: '--ignore-path .gitignore --plugin-search-dir=.'
+
+    clippy:
+        name: Run Clippy
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Install webkit2gtk
+              run: |
+                  sudo apt update
+                  sudo apt install -y webkit2gtk-4.0
+
+            - name: Install toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  components: clippy
+                  override: true
+
+            - name: Run Cargo Clippy
+              uses: actions-rs/clippy-check@v1
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  args: --manifest-path=src-tauri/Cargo.toml -- -D warnings
