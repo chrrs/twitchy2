@@ -1,77 +1,36 @@
 <script lang="ts">
-	import VirtualList from '$components/VirtualList.svelte';
-	import ChatMessage from '$components/ChatMessage.svelte';
-	import { ChatClient, parseTwitchMessage } from '@twurple/chat';
-	import { Message, parseMessage } from '$lib/message';
-	import { globalBadgeProvider } from '$lib/badge';
-	import { bttvGlobalEmoteProvider } from '$lib/bttv';
-	import { ffzGlobalEmoteProvider } from '$lib/ffz';
-	import type { TwitchPrivateMessage } from '@twurple/chat/lib/commands/TwitchPrivateMessage';
+	import { goto } from '$app/navigation';
+	import { Channel, fetchChannel } from '$lib/channel';
+	import { accounts } from '$store/accounts';
 	import { onMount } from 'svelte';
 
-	let scrollToIndex: (index: number, cfg?: ScrollToOptions) => Promise<void>;
-	let messages: Array<Message> = [];
+	let channel: Channel;
 
-	let pauseAutoScroll = false;
+	onMount(async () => {
+		if ($accounts.length === 0) {
+			goto('/');
+			return;
+		}
 
-	onMount(() => {
-		(async () => {
-			const channel = 'xqcow';
-			const recent: { messages: Array<string> } = await fetch(
-				`https://recent-messages.robotty.de/api/v2/recent-messages/${channel}?limit=100`
-			).then((res) => res.json());
-
-			messages = recent.messages
-				.map((message) => parseTwitchMessage(message))
-				.filter((msg) => msg.command === 'PRIVMSG')
-				.map((msg) => ({
-					...parseMessage(
-						msg as TwitchPrivateMessage,
-						[globalBadgeProvider],
-						[bttvGlobalEmoteProvider, ffzGlobalEmoteProvider]
-					),
-					old: true,
-				}));
-
-			// FIXME: Kinda dirty hack, but it works for now.
-			setTimeout(() => scrollToIndex(messages.length - 1), 0);
-
-			const client = new ChatClient({ channels: [channel] });
-			await client.connect();
-
-			client.onMessage(async (_channel, _user, _message, msg) => {
-				messages = [
-					...messages,
-					parseMessage(
-						msg,
-						[globalBadgeProvider],
-						[bttvGlobalEmoteProvider, ffzGlobalEmoteProvider]
-					),
-				];
-			});
-		})();
+		channel = await fetchChannel('lirik');
 	});
-
-	function handleScroll(offsetFromBottom: number) {
-		pauseAutoScroll = offsetFromBottom > 10;
-	}
 </script>
 
-<div class="h-screen max-w-5xl mx-auto" class:autoscroll={pauseAutoScroll}>
-	<VirtualList
-		items={messages}
-		on:scroll={(e) =>
-			handleScroll(e.detail.scrollHeight - e.detail.scrollTop - e.detail.clientHeight)}
-		bind:scrollToIndex
-		scrollToBottom={!pauseAutoScroll}
-		let:item
-	>
-		<ChatMessage message={item} />
-	</VirtualList>
+<div>
+	{#if !channel}
+		<p>Loading...</p>
+	{:else}
+		<div class="flex flex-col p-2 gap-2">
+			<h1 class="flex items-center gap-2 text-xl font-semibold">
+				{channel.name}'s Chat
+				{#if channel.isLive}
+					<span
+						class="inline-block text-xs rounded uppercase px-2 py-0.5 mt-0.5 bg-red-200 text-red-700"
+					>
+						Live
+					</span>
+				{/if}
+			</h1>
+		</div>
+	{/if}
 </div>
-
-<style>
-	.autoscroll {
-		@apply border-b-4 border-red-500;
-	}
-</style>
