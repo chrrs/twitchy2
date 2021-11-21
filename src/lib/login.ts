@@ -8,7 +8,7 @@ export interface TwitchLogin {
 	accessToken: string;
 	name: string;
 	id: string;
-	expiry: Date;
+	expiry: string;
 }
 
 export function login(): Promise<TwitchLogin> {
@@ -46,7 +46,7 @@ export function login(): Promise<TwitchLogin> {
 						accessToken,
 						name: tokenInfo.userName,
 						id: tokenInfo.userId,
-						expiry,
+						expiry: expiry.toISOString(),
 					});
 				} catch (e) {
 					reject(e);
