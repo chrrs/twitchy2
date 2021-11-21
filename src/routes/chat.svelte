@@ -14,6 +14,11 @@
 
 		channel = await fetchChannel('lirik');
 	});
+
+	async function changeChannel(name: string) {
+		channel = null;
+		channel = await fetchChannel(name);
+	}
 </script>
 
 <div>
@@ -22,7 +27,12 @@
 	{:else}
 		<div class="flex flex-col p-2 gap-2">
 			<h1 class="flex items-center gap-2 text-xl font-semibold">
-				{channel.name}'s Chat
+				<span>
+					<button
+						class="font-semibold hover:text-blue-500"
+						on:click={() => changeChannel(prompt())}>{channel.name}</button
+					>'s Chat
+				</span>
 				{#if channel.isLive}
 					<span
 						class="inline-block text-xs rounded uppercase px-2 py-0.5 mt-0.5 bg-red-200 text-red-700"
