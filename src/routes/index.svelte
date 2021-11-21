@@ -1,21 +1,23 @@
 <script lang="ts">
-	import { login } from '$lib/login';
+	import { accounts } from '$store/accounts';
+	import { onMount } from 'svelte';
 
-	async function tryLogin() {
-		try {
-			alert(JSON.stringify(await login()));
-		} catch (e) {
-			alert(e);
-		}
-	}
+	let loading = true;
+
+	onMount(async () => {
+		await accounts.fetch();
+		loading = false;
+	});
 </script>
 
-<div class="h-full flex justify-center items-center text-5xl">
-	<span>
-		Click <a
-			class="text-blue-500 border-b-4 border-blue-500 hover:(text-blue-600 border-blue-600)"
-			on:click={tryLogin}
-			href={'javascript:void(0)'}>here</a
-		> to go to chat
-	</span>
+<div class="h-full flex justify-center items-center">
+	{#if loading}
+		<span>Loading...</span>
+	{:else if $accounts.length === 0}
+		<button on:click={() => accounts.tryLogin()}>Log in</button>
+	{:else}
+		<span>
+			{JSON.stringify($accounts)}
+		</span>
+	{/if}
 </div>

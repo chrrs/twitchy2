@@ -3,10 +3,23 @@
     windows_subsystem = "windows"
 )]
 
+use std::vec;
+
 use tauri::{Manager, WindowEvent};
+use tauri_plugin_store::StorePlugin;
 
 fn main() {
     tauri::Builder::default()
+        .setup(|app| {
+            if let Some(path) = app.path_resolver().app_dir() {
+                if let Some(path) = path.to_str() {
+                    println!("Application data stored at {}", path)
+                }
+            }
+
+            Ok(())
+        })
+        .plugin(StorePlugin::default())
         .on_page_load(|window, payload| {
             if window.label() != "login" {
                 return;
