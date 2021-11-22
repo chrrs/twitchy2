@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import Spinner from '$components/Spinner.svelte';
 
 	import { accounts } from '$store/accounts';
 	import { onMount } from 'svelte';
@@ -27,7 +28,7 @@
 
 <div class="h-full flex justify-center items-center">
 	{#if loading}
-		<span>Loading...</span>
+		<Spinner />
 	{:else}
 		<button on:click={tryLogin}>Log in</button>
 	{/if}
