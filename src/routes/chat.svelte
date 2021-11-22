@@ -3,7 +3,7 @@
 	import Spinner from '$components/Spinner.svelte';
 	import { Channel, fetchChannel } from '$lib/channel';
 	import { accounts } from '$store/accounts';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	let channel: Channel;
 
@@ -17,9 +17,14 @@
 	});
 
 	async function changeChannel(name: string) {
+		channel?.drop();
 		channel = null;
 		channel = await fetchChannel(name);
 	}
+
+	onDestroy(() => {
+		channel?.drop();
+	});
 </script>
 
 {#if !channel}
