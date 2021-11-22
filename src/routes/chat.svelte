@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import Chat from '$components/Chat.svelte';
 	import Spinner from '$components/Spinner.svelte';
 	import { Channel, fetchChannel } from '$lib/channel';
 	import { accounts } from '$store/accounts';
@@ -32,7 +33,7 @@
 		<Spinner />
 	</div>
 {:else}
-	<div class="flex flex-col p-2 gap-2">
+	<div class="flex flex-col h-screen p-2 gap-2">
 		<h1 class="flex items-center gap-2 text-xl font-semibold">
 			<span>
 				<button
@@ -48,5 +49,9 @@
 				</span>
 			{/if}
 		</h1>
+
+		<div class="flex-grow overflow-y-auto">
+			<Chat {channel} />
+		</div>
 	</div>
 {/if}

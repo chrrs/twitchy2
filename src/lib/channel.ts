@@ -31,10 +31,14 @@ export class Channel {
 		this.mitt.off(type, handler);
 	}
 
+	get internalName() {
+		return this.name.toLowerCase();
+	}
+
 	drop() {
 		this.refs--;
 		if (this.refs === 0) {
-			delete channels[this.name.toLowerCase()];
+			delete channels[this.internalName];
 		}
 	}
 }
