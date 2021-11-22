@@ -33,6 +33,7 @@
 		"@twurple/api": "^5.0.9",
 		"@twurple/auth": "^5.0.9",
 		"@twurple/chat": "^5.0.9",
+		"mitt": "^3.0.0",
 		"sveltejs-tippy": "^3.0.0",
 		"tauri-plugin-store-api": "tauri-apps/tauri-plugin-store",
 		"tippy.js": "^6.3.7"
