@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "vite build",
-		"dev": "vite --open",
+		"dev": "vite",
 		"lint": "prettier --ignore-path .gitignore --check . && eslint --ignore-path .gitignore .",
 		"tauri": "tauri"
 	},
