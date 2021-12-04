@@ -4,7 +4,7 @@
 )]
 
 use tauri::{Manager, WindowEvent};
-use tauri_plugin_store::StorePlugin;
+use tauri_plugin_store::PluginBuilder;
 
 fn main() {
     tauri::Builder::default()
@@ -17,7 +17,7 @@ fn main() {
 
             Ok(())
         })
-        .plugin(StorePlugin::default())
+        .plugin(PluginBuilder::default().build())
         .on_page_load(|window, payload| {
             if window.label() != "login" {
                 return;
