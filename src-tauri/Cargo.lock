@@ -2925,7 +2925,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-store"
 version = "0.0.0"
-source = "git+https://github.com/SlagHoedje/tauri-plugin-store#616ad22004c8b6dca390a4905ae827bf560eb094"
+source = "git+https://github.com/tauri-apps/tauri-plugin-store#16e131d6947951d9ae8e6b4fffeb5919996d3f6d"
 dependencies = [
  "bincode",
  "serde",
