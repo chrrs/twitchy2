@@ -68,7 +68,7 @@ jobs:
                   override: true
 
             - name: Create build directory
-              run: mkdir build
+              run: mkdir dist
 
             - name: Run Cargo Clippy
               uses: actions-rs/cargo@v1
