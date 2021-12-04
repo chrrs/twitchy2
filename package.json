@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "vite build",
 		"dev": "vite --open",
-		"lint": "prettier --check . && eslint --ignore-path .gitignore .",
+		"lint": "prettier --ignore-path .gitignore --check . && eslint --ignore-path .gitignore .",
 		"tauri": "tauri"
 	},
 	"devDependencies": {

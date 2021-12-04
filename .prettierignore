@@ -1,7 +1,0 @@
-.DS_Store
-node_modules
-/dist
-.env
-/src-tauri/target
-/src-tauri/WixTools
-.eslintcache
