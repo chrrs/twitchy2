@@ -43,6 +43,7 @@ jobs:
               with:
                   eslint: true
                   eslint_args: '--ignore-path .gitignore'
+                  eslint_extensions: 'html,ts,tsx'
                   prettier: true
                   prettier_args: '--ignore-path .gitignore --plugin-search-dir=.'
 
