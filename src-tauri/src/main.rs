@@ -3,8 +3,6 @@
     windows_subsystem = "windows"
 )]
 
-use std::vec;
-
 use tauri::{Manager, WindowEvent};
 use tauri_plugin_store::StorePlugin;
 
