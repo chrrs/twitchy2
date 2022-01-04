@@ -29,7 +29,7 @@ fn main() {
 
             if !payload
                 .url()
-                .starts_with("https://slaghoedje.github.io/twitchy2")
+                .starts_with("https://chrrs.github.io/twitchy2")
             {
                 return;
             }
